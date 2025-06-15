@@ -1,262 +1,114 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Đăng nhập / Đăng ký</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login / Register</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAKR_Urt79aX0GqcN52CEwLCJi9bF_iD98",
+      authDomain: "nguyendueducation-44987.firebaseapp.com",
+      projectId: "nguyendueducation-44987",
+      storageBucket: "nguyendueducation-44987.firebasestorage.app",
+      messagingSenderId: "646604023441",
+      appId: "1:646604023441:web:1a1c5bf0097d52b170c130",
+      measurementId: "G-0F0C5MPPD4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+
+    document.getElementById("register-btn").addEventListener("click", () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("Đăng ký thành công!");
+          localStorage.setItem("currentUser", JSON.stringify({ email }));
+          window.location.href = "index.html";
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    });
+
+    document.getElementById("login-btn").addEventListener("click", () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("Đăng nhập thành công!");
+          localStorage.setItem("currentUser", JSON.stringify({ email }));
+          window.location.href = "index.html";
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    });
+  </script>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background-color: #ffee69;
-    }
-
-    .wrapper {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* Nền trống đồng */
-    .drum-container {
-      position: absolute;
-      width: 100%;
-      height: 100%;
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #667eea, #764ba2);
       display: flex;
       justify-content: center;
       align-items: center;
-      top: 0;
-      left: 0;
-      z-index: 1;
+      height: 100vh;
+      margin: 0;
     }
-
-    .drum-container img {
-      position: absolute;
-      width: auto;
-      max-width: 100%;
-      object-fit: contain;
-    }
-
-    .chin { z-index: -9; width: 700px; height: 700px; }
-    .tam  { z-index: -8; width: 572px; height: 572px; }
-    .bay  { z-index: -7; width: 488px; height: 488px; }
-    .sau  { z-index: -6; width: 466px; height: 466px; }
-    .nam  { z-index: -5; width: 403px; height: 403px; }
-    .tu   { z-index: -4; width: 371px; height: 371px; }
-    .ba   { z-index: -3; width: 276px; height: 276px; }
-    .hai  { z-index: -2; width: 244px; height: 244px; }
-    .mot  { z-index: -1; width: 212px; height: 212px; }
-@media screen and (max-width: 768px) {
-  .chin { z-index: -9; width: 350px; height: 350px; }
-.tam  { z-index: -8; width: 286px; height: 286px; }
-.bay  { z-index: -7; width: 244px; height: 244px; }
-.sau  { z-index: -6; width: 233px; height: 233px; }
-.nam  { z-index: -5; width: 201.5px; height: 201.5px; }
-.tu   { z-index: -4; width: 185.5px; height: 185.5px; }
-.ba   { z-index: -3; width: 138px; height: 138px; }
-.hai  { z-index: -2; width: 122px; height: 122px; }
-.mot  { z-index: -1; width: 106px; height: 106px; }
-  
-}
-    .nguyendu {
-      position: absolute;
-      height: 700px;
-      bottom: -20px;
-      z-index: 2;
-    }
-
-    /* CSS cho form đăng nhập/đăng ký */
     .form-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255, 255, 255, 0.5);
-      /* Độ mờ kết hợp glassmorphism:
-         Bạn có thể thử dùng backdrop-filter nếu muốn hiệu ứng kính mờ:
-         backdrop-filter: blur(10px);
-         -webkit-backdrop-filter: blur(10px);
-      */
-      padding: 30px 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.2);
-      width: 300px;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.5s ease;
-      z-index: 10;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
     }
-
-    .form-container.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
     h2 {
       text-align: center;
-      color: #1e40af;
+      margin-bottom: 1rem;
     }
-
     input {
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 6px;
+      width: 94%;
+      
+      padding: 0.75rem;
+      margin-bottom: 1rem;
       border: 1px solid #ccc;
-      font-size: 16px;
+      border-radius: 0.5rem;
     }
-
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+    }
     button {
-      width: 100%;
-      padding: 10px;
-      background-color: #1e40af;
-      color: white;
+      width: 48%;
+      padding: 0.75rem;
       border: none;
-      border-radius: 6px;
+      background: #667eea;
+      color: white;
+      border-radius: 0.5rem;
       cursor: pointer;
-      font-size: 16px;
-      margin-top: 10px;
+      transition: background 0.3s;
     }
-
-    .switch-link {
-      margin-top: 15px;
-      text-align: center;
-      color: #1e40af;
-      text-decoration: underline;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    @keyframes rotate-clockwise {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes rotate-counterclockwise {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(-360deg); }
-    }
-
-    .rotate-cw {
-      animation: rotate-clockwise 20s linear infinite;
-    }
-
-    .rotate-ccw {
-      animation: rotate-counterclockwise 20s linear infinite;
+    button:hover {
+      background: #5a67d8;
     }
   </style>
 </head>
 <body>
-  <div class="wrapper" id="wrapper">
-    <!-- Nền trống đồng -->
-    <div class="drum-container">
-      <img class="chin rotate-cw" src="img/Vong 09.svg" alt="">
-      <img class="tam rotate-ccw" src="img/Vong 08.svg" alt="">
-      <img class="bay rotate-cw" src="img/Vong 07.svg" alt="">
-      <img class="sau rotate-ccw" src="img/Vong 06.svg" alt="">
-      <img class="nam rotate-cw" src="img/Vong 05.svg" alt="">
-      <img class="tu rotate-ccw" src="img/Vong 04.svg" alt="">
-      <img class="ba rotate-cw" src="img/Vong 03.svg" alt="">
-      <img class="hai rotate-ccw" src="img/Vong 02.svg" alt="">
-      <img class="mot rotate-cw" src="img/Vong 01.svg" alt="">
-      <img class="nguyendu" src="img/anhnguyendu.png" alt="">
-    </div>
-
-    <!-- Form đăng nhập -->
-    <div class="form-container active" id="loginForm">
-      <h2>Đăng nhập</h2>
-      <input type="text" id="loginUsername" placeholder="Tên đăng nhập" />
-      <input type="password" id="loginPassword" placeholder="Mật khẩu" />
-      <button onclick="login()">Đăng nhập</button>
-      <div class="switch-link" onclick="switchForm('registerForm')">Chưa có tài khoản? Đăng ký</div>
-    </div>
-
-    <!-- Form đăng ký -->
-    <div class="form-container" id="registerForm">
-      <h2>Đăng ký</h2>
-      <input type="text" id="registerUsername" placeholder="Tên đăng nhập" />
-      <input type="password" id="registerPassword" placeholder="Mật khẩu" />
-      <input type="password" id="registerConfirmPassword" placeholder="Nhập lại mật khẩu" />
-      <button onclick="register()">Đăng ký</button>
-      <div class="switch-link" onclick="switchForm('loginForm')">Đã có tài khoản? Đăng nhập</div>
+  <div class="form-container">
+    <h2>Đăng nhập / Đăng ký</h2>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Mật khẩu" />
+    <div class="buttons">
+      <button id="login-btn">Đăng nhập</button>
+      <button id="register-btn">Đăng ký</button>
     </div>
   </div>
-
-  <script>
-    function switchForm(formId) {
-      // Ẩn cả 2 form
-      document.getElementById("loginForm").classList.remove("active");
-      document.getElementById("registerForm").classList.remove("active");
-      
-      // Sau 100ms, bật form được chọn
-      setTimeout(() => {
-        document.getElementById(formId).classList.add("active");
-      }, 100);
-    }
-
-    function login() {
-      const username = document.getElementById("loginUsername").value.trim();
-      const password = document.getElementById("loginPassword").value;
-
-      if (!username || !password) {
-        alert("Vui lòng điền đầy đủ tên đăng nhập và mật khẩu.");
-        return;
-      }
-
-      const users = JSON.parse(localStorage.getItem("users")) || [];
-      const user = users.find(u => u.username === username && u.password === password);
-
-      if (user) {
-        localStorage.setItem("currentUser", JSON.stringify(user));
-        window.location.href = "index.html";
-      } else {
-        alert("Sai tên đăng nhập hoặc mật khẩu.");
-      }
-    }
-
-    function register() {
-      const username = document.getElementById("registerUsername").value.trim();
-      const password = document.getElementById("registerPassword").value;
-      const confirmPassword = document.getElementById("registerConfirmPassword").value;
-
-      if (!username || !password || !confirmPassword) {
-        alert("Vui lòng điền đầy đủ thông tin.");
-        return;
-      }
-
-      if (username.length < 4) {
-        alert("Tên đăng nhập phải có ít nhất 4 ký tự.");
-        return;
-      }
-
-      if (password.length < 6) {
-        alert("Mật khẩu phải có ít nhất 6 ký tự.");
-        return;
-      }
-
-      if (password !== confirmPassword) {
-        alert("Mật khẩu không khớp.");
-        return;
-      }
-
-      const users = JSON.parse(localStorage.getItem("users")) || [];
-      if (users.some(u => u.username === username)) {
-        alert("Tên đăng nhập đã tồn tại.");
-        return;
-      }
-
-      const newUser = { username, password };
-      users.push(newUser);
-      localStorage.setItem("users", JSON.stringify(users));
-      alert("Đăng ký thành công! Mời bạn đăng nhập.");
-      switchForm("loginForm");
-    }
-  </script>
 </body>
 </html>
