@@ -4,53 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login / Register</title>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAKR_Urt79aX0GqcN52CEwLCJi9bF_iD98",
-      authDomain: "nguyendueducation-44987.firebaseapp.com",
-      projectId: "nguyendueducation-44987",
-      storageBucket: "nguyendueducation-44987.firebasestorage.app",
-      messagingSenderId: "646604023441",
-      appId: "1:646604023441:web:1a1c5bf0097d52b170c130",
-      measurementId: "G-0F0C5MPPD4"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const auth = getAuth(app);
-
-    document.getElementById("register-btn").addEventListener("click", () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          alert("Đăng ký thành công!");
-          localStorage.setItem("currentUser", JSON.stringify({ email }));
-          window.location.href = "index.html";
-        })
-        .catch((error) => {
-          alert(error.message);
-        });
-    });
-
-    document.getElementById("login-btn").addEventListener("click", () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          alert("Đăng nhập thành công!");
-          localStorage.setItem("currentUser", JSON.stringify({ email }));
-          window.location.href = "index.html";
-        })
-        .catch((error) => {
-          alert(error.message);
-        });
-    });
-  </script>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -107,8 +61,83 @@
     <input type="password" id="password" placeholder="Mật khẩu" />
     <div class="buttons">
       <button id="login-btn">Đăng nhập</button>
-      <button id="register-btn">Đăng ký</button>
+      <button id="register-btn">Đăng ký</button><br>
+      <div style="text-align:center; margin-top: 1rem;">
+  <button id="google-login-btn" style="background: #db4437; color: white; width: 100%;">Đăng nhập bằng Google</button>
+</div>
+
     </div>
   </div>
+  <script type="module" >
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup
+  } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAKR_Urt79aX0GqcN52CEwLCJi9bF_iD98",
+    authDomain: "nguyendueducation-44987.firebaseapp.com",
+    projectId: "nguyendueducation-44987",
+    storageBucket: "nguyendueducation-44987.firebasestorage.app",
+    messagingSenderId: "646604023441",
+    appId: "1:646604023441:web:1a1c5bf0097d52b170c130",
+    measurementId: "G-0F0C5MPPD4"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+
+  document.getElementById("register-btn").addEventListener("click", () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        alert("Đăng ký thành công!");
+        localStorage.setItem("currentUser", JSON.stringify({ email }));
+        window.location.href = "index.html";
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  });
+
+  document.getElementById("login-btn").addEventListener("click", () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        alert("Đăng nhập thành công!");
+        localStorage.setItem("currentUser", JSON.stringify({ email }));
+        window.location.href = "index.html";
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  });
+
+  // 🧠 ĐĂNG NHẬP BẰNG GOOGLE
+  document.getElementById("google-login-btn").addEventListener("click", () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        alert("Đăng nhập bằng Google thành công!");
+        localStorage.setItem("currentUser", JSON.stringify({
+          email: user.email,
+          avatar: user.photoURL
+        }));
+        window.location.href = "index.html";
+      })
+      .catch((error) => {
+        alert("Lỗi đăng nhập Google: " + error.message);
+      });
+  });
+</script>
 </body>
 </html>
