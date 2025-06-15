@@ -61,7 +61,7 @@
     <input type="password" id="password" placeholder="Mật khẩu" />
     <div class="buttons">
       <button id="login-btn">Đăng nhập</button>
-      <button id="register-btn">Đăng ký</button><br>
+      <button id="register-btn">Đăng ký</button>
       <div style="text-align:center; margin-top: 1rem;">
   <button id="google-login-btn" style="background: #db4437; color: white; width: 100%;">Đăng nhập bằng Google</button>
 </div>
@@ -120,8 +120,6 @@
         alert(error.message);
       });
   });
-
-  // 🧠 ĐĂNG NHẬP BẰNG GOOGLE
   document.getElementById("google-login-btn").addEventListener("click", () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
